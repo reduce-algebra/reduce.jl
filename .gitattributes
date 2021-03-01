@@ -1,0 +1,10 @@
+# Disable GitHub Linguist
+test/* linguist-vendored
+src/* linguist-vendored
+docs/* linguist-vendored
+deps/* linguist-vendored
+*.yml linguist-vendored
+*.toml linguist-vendored
+.github/* linguist-vendored
+./* linguist-vendored
+* linguist-vendored
