@@ -1,0 +1,11 @@
+version: 2
+mergeable:
+  - when: pull_request.opened
+    name: "Greet a contributor"
+    validate: []
+    pass:
+      - do: comment
+        payload:
+          body: >
+            Thanks for your contribution!  Unfortunately, we don't use GitHub pull requests to manage code contributions to this repository.  Instead, please see the upstream repository, [github.com/chakravala/Reduce.jl](https://github.com/chakravala/Reduce.jl).
+      - do: close
