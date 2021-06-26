@@ -11,26 +11,33 @@ Pages = ["19-rlisp.md"]
 Many versions of REDUCE include a Standard Lisp compiler that is automatically loaded on demand. You should check your system specific user guide to make sure you have such a compiler. To make the compiler active, the switch `comp` should be turned on. Any further definitions input after this will be compiled automatically. If the compiler used is a derivative version of the original Griss-Hearn compiler, (M. L. Griss and A. C. Hearn, “A Portable LISP Compiler", SOFTWARE — Practice and Experience 11 (1981) 541-605), there are other switches that might also be used in this regard. However, these additional switches are not supported in all compilers. They are as follows:
 
 `plap`
+
 - If `on`, causes the printing of the portable macros produced by the compiler;
 
 `pgwd`
+
 - If `on`, causes the printing of the actual assembly language instructions generated from the macros;
 
 `pwrds`
-- If `on`, causes a statistic message of the form 
+
+- If `on`, causes a statistic message of the form
+
 ```
-⟨function⟩ COMPILED, ⟨words⟩ WORDS, ⟨words⟩ LEFT 
+⟨function⟩ COMPILED, ⟨words⟩ WORDS, ⟨words⟩ LEFT
 ```
+
 to be printed. The first number is the number of words of binary program space the compiled function took, and the second number the number of words left unused in binary program space.
 
 ## 19.2 Fast Loading Code Generation Program
 
 In most versions of REDUCE, it is possible to take any set of Lisp, Rlisp or REDUCE commands and build a fast loading version of them. In Rlisp or REDUCE, one does the following:
+
 ```
-         faslout <filename>;  
-         <commands or IN statements>  
+         faslout <filename>;
+         <commands or IN statements>
          faslend;
 ```
+
 To load such a file, one uses the command `load`, e.g. `load foo;` or `load foo,bah;`
 
 This process produces a fast-loading version of the original file. In some implementations, this means another file is created with the same name but a different extension. For example, in PSL-based systems, the extension is `b` (for binary). In CSL-based systems, however, this process adds the fast-loading code to a single file in which all such code is stored. Particular functions are provided by CSL for managing this file, and described in the CSL user documentation.
@@ -39,7 +46,7 @@ In doing this build, as with the production of a Standard Lisp form of such stat
 
 To avoid excessive printout, input statements should be followed by a `$` instead of the semicolon. With `load` however, the input doesn’t print out regardless of which terminator is used with the command.
 
-If you subsequently change the source files used in producing a fast loading file, don’t forget to repeat the above process in order to update the fast loading file correspondingly. Remember also that the text which is read in during the creation of the fast load file, in the compiling process described above, is *not* stored in your REDUCE environment, but only translated and output. If you want to use the file just created, you must then use `load` to load the output of the fast-loading file generation program.
+If you subsequently change the source files used in producing a fast loading file, don’t forget to repeat the above process in order to update the fast loading file correspondingly. Remember also that the text which is read in during the creation of the fast load file, in the compiling process described above, is _not_ stored in your REDUCE environment, but only translated and output. If you want to use the file just created, you must then use `load` to load the output of the fast-loading file generation program.
 
 When the file to be loaded contains a complete package for a given application, `load_package` rather than `load` should be used. The syntax is the same. However, `load_package` does some additional bookkeeping such as recording that this package has now been loaded, that is required for the correct operation of the system.
 
@@ -48,25 +55,30 @@ When the file to be loaded contains a complete package for a given application, 
 `cref` is a Standard Lisp program for processing a set of Standard LISP function definitions to produce:
 
 1. A “summary” showing:
-  * A list of files processed;
-  * A list of “entry points” (functions which are not called or are only called by themselves);
-  * A list of undefined functions (functions called but not defined in this set of functions);
-  * A list of variables that were used non-locally but not declared `global` or `fluid` before their use;
-  * A list of variables that were declared `global` but not used as `fluid`s, i.e., bound in a function;
-  * A list of `fluid` variables that were not bound in a function so that one might consider declaring them `global`s;
-  * A list of all `global` variables present;
-  * A list of all `fluid` variables present;
-  * A list of all functions present.
+
+- A list of files processed;
+- A list of “entry points” (functions which are not called or are only called by themselves);
+- A list of undefined functions (functions called but not defined in this set of functions);
+- A list of variables that were used non-locally but not declared `global` or `fluid` before their use;
+- A list of variables that were declared `global` but not used as `fluid`s, i.e., bound in a function;
+- A list of `fluid` variables that were not bound in a function so that one might consider declaring them `global`s;
+- A list of all `global` variables present;
+- A list of all `fluid` variables present;
+- A list of all functions present.
+
 2. A “global variable usage” table, showing for each non-local variable:
-  * Functions in which it is used as a declared `fluid` or `global`;
-  * Functions in which it is used but not declared;
-  * Functions in which it is bound;
-  * Functions in which it is changed by `setq`.
+
+- Functions in which it is used as a declared `fluid` or `global`;
+- Functions in which it is used but not declared;
+- Functions in which it is bound;
+- Functions in which it is changed by `setq`.
+
 3. A “function usage” table showing for each function:
-  * Where it is defined;
-  * Functions which call this function;
-  * Functions called by it;
-  * Non-local variables used.
+
+- Where it is defined;
+- Functions which call this function;
+- Functions called by it;
+- Non-local variables used.
 
 The program will also check that functions are called with the correct number of arguments, and print a diagnostic message otherwise.
 
@@ -75,16 +87,19 @@ The output is alphabetized on the first seven characters of each function name.
 ### 19.3.1 Restrictions
 
 Algebraic procedures in REDUCE are treated as if they were symbolic, so that algebraic constructs will actually appear as calls to symbolic functions, such as AEVAL.
+
 ### 19.3.2 Usage
 
 To invoke the cross reference program, the switch `cref` is used. `on cref` causes the `cref` program to load and the cross-referencing process to begin. After all the required definitions are loaded, `off cref` will cause the cross-reference listing to be produced. For example, if you wish to cross-reference all functions in the file `tst.red`, and produce the cross-reference listing in the file `tst.crf`, the following sequence can be used:
+
 ```
-        out ~tst.crf~;  
-        on cref;  
-        in ~tst.red~$  
-        off cref;  
+        out ~tst.crf~;
+        on cref;
+        in ~tst.red~$
+        off cref;
         shut ~tst.crf~;
 ```
+
 To process more than one file, more `in` statements may be added before the call of `off cref`, or the `in` statement changed to include a list of files.
 
 ### 19.3.3 Options

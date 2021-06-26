@@ -1,12 +1,15 @@
 # 4 Lists
 
 A list is an object consisting of a sequence of other objects (including lists themselves), separated by commas and surrounded by braces. Examples of lists are:
+
 ```Julia
 R"{a,b,c}"
 R"{1,a-b,c=d}"
 R"{{a},{{b,c},d},e}"
 ```
+
 The empty list is represented as
+
 ```Julia
 R"{}"
 ```
@@ -46,6 +49,7 @@ This operator returns the third member of a list. An error occurs if the argumen
 ### 4.1.6 . (Cons) Operator
 
 This operator adds (“conses”) an expression to the front of a list. For example:
+
 ```Julia
 julia> R"a . {b,c}" == R"{a,b,c}"
 true
@@ -53,7 +57,8 @@ true
 
 ### 4.1.7 APPEND
 
-This operator appends its first argument to its second to form a new list. *Examples:*
+This operator appends its first argument to its second to form a new list. _Examples:_
+
 ```Julia
 R"append({a,b},{c,d})"     ->     R"{a,b,c,d}"
 R"append({{a,b}},{c,d})"   ->     R"{{a,b},c,d}"
@@ -62,6 +67,7 @@ R"append({{a,b}},{c,d})"   ->     R"{{a,b},c,d}"
 ### 4.1.8 REVERSE
 
 The operator `reverse` returns its argument with the elements in the reverse order. It only applies to the top level list, not any lower level lists that may occur. Examples are:
+
 ```Julia
 julia> Algebra.reverse(list(:a,:b,:c)) ==  R"{c,b,a}"
 true
@@ -80,39 +86,44 @@ If an operator has more than one argument, no such distribution occurs.
 
 ### 4.1.10 Caveats and Examples
 
-Some of the natural list operations such as *member* or *delete* are available only after loading the package ASSIST (chapter 16.5).
+Some of the natural list operations such as _member_ or _delete_ are available only after loading the package ASSIST (chapter 16.5).
 
 Please note that a non-list as second argument to `cons` (a "dotted pair" in LISP terms) is not allowed and causes an "invalid as list" error.
+
 ```
 julia> R"a := 17 . 4"
 
 ***** 17 4 invalid as list
 ```
+
 Also, the initialization of a scalar variable is not the empty list – one has to set list type variables explicitly, as in the following example:
+
 ```
- load_package assist;  
- 
- procedure lotto (n,m);  
-  begin scalar list_1_n, luckies, hit;  
-     list_1_n := {};  
-     luckies := {};  
-     for k:=1:n do list_1_n := k . list_1_n;  
-     for k:=1:m do  
-       << hit := part(list_1_n,random(n-k+1) + 1);  
-          list_1_n := delete(hit,list_1_n);  
-          luckies := hit . luckies >>;  
-     return luckies;  
-  end;  
+ load_package assist;
+
+ procedure lotto (n,m);
+  begin scalar list_1_n, luckies, hit;
+     list_1_n := {};
+     luckies := {};
+     for k:=1:n do list_1_n := k . list_1_n;
+     for k:=1:m do
+       << hit := part(list_1_n,random(n-k+1) + 1);
+          list_1_n := delete(hit,list_1_n);
+          luckies := hit . luckies >>;
+     return luckies;
+  end;
                  % In Germany, try lotto (49,6);
 ```
-*Another example:* Find all coefficients of a multivariate polynomial with respect to a list of variables:
+
+_Another example:_ Find all coefficients of a multivariate polynomial with respect to a list of variables:
+
 ```
-procedure allcoeffs(q,lis);  
-   % q : polynomial, lis: list of vars  
-   allcoeffs1 (list q,lis);  
- 
-procedure allcoeffs1(q,lis);  
-  if lis={} then q else  
-    allcoeffs1(foreach qq in q join coeff(qq,first lis),  
+procedure allcoeffs(q,lis);
+   % q : polynomial, lis: list of vars
+   allcoeffs1 (list q,lis);
+
+procedure allcoeffs1(q,lis);
+  if lis={} then q else
+    allcoeffs1(foreach qq in q join coeff(qq,first lis),
                rest lis);
 ```
