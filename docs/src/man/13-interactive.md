@@ -13,14 +13,18 @@ Pages = ["13-interactive.md"]
 ## 13.1 Referencing Previous Results
 
 It is often useful to be able to reference results of previous computations during a REDUCE session. For this purpose, REDUCE maintains a history of all interactive inputs and the results of all interactive computations during a given session. These results are referenced by the command number that REDUCE prints automatically in interactive mode. To use an input expression in a new computation, one writes `input(n)`, where `n` is the command number. To use an output expression, one writes `ws(n)`. `ws` references the previous command. E.g., if command number 1 was `int(x-1,x)` and the result of command number 7 was `x-1`, then
+
 ```
         2*input(1)-ws(7)^2;
 ```
+
 would give the result `-1`, whereas
+
 ```
         2*ws(1)-ws(7)^2;
 ```
-would yield the same result, but *without* a recomputation of the integral.
+
+would yield the same result, but _without_ a recomputation of the integral.
 
 The operator `display` is available to display previous inputs. If its argument is a positive integer, n say, then the previous n inputs are displayed. If its argument is `all` (or in fact any non-numerical expression), then all previous inputs are displayed.
 
