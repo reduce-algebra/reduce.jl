@@ -1,13 +1,17 @@
 # 5 Statements
 
 A statement is any combination of reserved words and expressions, and has the syntax
+
 ```Julia
 R"⟨statement⟩ ::= ⟨expression⟩∣⟨proper statement⟩"
 ```
+
 A REDUCE program consists of a series of commands which are statements followed by a terminator:
+
 ```
 ⟨terminator⟩ ::= ;∣$
 ```
+
 The division of the program into lines is arbitrary. Several statements can be on one line, or one statement can be freely broken onto several lines. If the program is run interactively, statements ending with `;` or `$` are not processed until an end-of-line character is encountered. This character can vary from system to system, but is normally the Return key on an ASCII terminal. Specific systems may also use additional keys as statement terminators.
 
 If a statement is a proper statement, the appropriate action takes place.
@@ -25,15 +29,19 @@ Pages = ["05-statements.md"]
 ## 5.1 Assignment Statements
 
 These statements have the syntax
+
 ```
 ⟨assignment statement⟩ ::= ⟨expression⟩:=⟨expression⟩
 ```
+
 The `⟨expression⟩` on the left side is normally the name of a variable, an operator symbol with its list of arguments filled in, or an array name with the proper number of integer subscript values within the array bounds. For example:
+
 ```Julia
 R"a1 := b + c"
 R"h(l,m) := x-2*y"     	(where h is an operator)
 R"k(3,5) := x-2*y"	(where k is a 2-dim. array)
 ```
+
 More general assignments such as `R"a+b := c"` are also allowed. The effect of these is explained in Section 11.2.5.
 
 An assignment statement causes the expression on the right-hand-side to be evaluated. If the left-hand-side is a variable, the value of the right-hand-side is assigned to that unevaluated variable. If the left-hand-side is an operator or array expression, the arguments of that operator or array are evaluated, but no other simplification done. The evaluated right-hand-side is then assigned to the resulting expression. For example, if `a` is a single-dimensional array, `R"a(1+1) := b"` assigns the value `b` to the array element `a(2)`.
@@ -41,9 +49,11 @@ An assignment statement causes the expression on the right-hand-side to be evalu
 If a semicolon is used as the terminator when an assignment is issued as a command (i.e. not as a part of a group statement or procedure or other similar construct), the left-hand side symbol of the assignment statement is printed out, followed by a “`:=`”, followed by the value of the expression on the right.
 
 It is also possible to write a multiple assignment statement:
+
 ```
 ⟨expression⟩:=…:=⟨expression⟩:=⟨expression⟩
 ```
+
 In this form, each `⟨expression⟩` but the last is set to the value of the last `⟨expression⟩`. If a semicolon is used as a terminator, each expression except the last is printed followed by a “`:=`” ending with the value of the last expression.
 
 ### 5.1.1 Set and Unset Statements

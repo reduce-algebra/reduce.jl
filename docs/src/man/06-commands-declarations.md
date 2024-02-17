@@ -20,9 +20,11 @@ Not initially supported by Reduce.jl parser, see [upstream docs](http://www.redu
 ## 6.2 Mode Handling Declarations
 
 The `on` and `off` declarations are available to the user for controlling various system options. Each option is represented by a switch name. `on` and `off` take a list of switch names as argument and turn them on and off respectively, e.g.,
+
 ```Julia
 julia> on(:time)
 ```
+
 causes the system to print a message after each command giving the elapsed CPU time since the last command, or since `time` was last turned off, or the session began. Another useful switch with interactive use is `demo`, which causes the system to pause after each command in a file (with the exception of comments) until a `<Return>` is typed on the terminal. This enables a user to set up a demonstration file and step through it command by command.
 
 ```@docs
@@ -34,21 +36,26 @@ Reduce.Algebra.off
 ```
 
 As with most declarations, arguments to `on` and `off` may be strung together separated by commas. For example,
+
 ```Julia
 julia> off(:time,:demo)
 ```
+
 will turn off both the time messages and the demonstration switch.
 
 We note here that while most `on` and `off` commands are obeyed almost instantaneously, some trigger time-consuming actions such as reading in necessary modules from secondary storage.
 
 A diagnostic message is printed if `on` or `off` are used with a switch that is not known to the system. For example, if you misspell `demo` and type
+
 ```Julia
 julia> on(:demq)
 ```
+
 you will get the message
+
 ```
-ERROR: Reduce: 
-***** demq not defined as switch 
+ERROR: Reduce:
+***** demq not defined as switch
 ```
 
 ## 6.3 END
@@ -72,13 +79,16 @@ The command `R"bye"` (or alternatively `R"quit"`) stops the execution of REDUCE,
 Reduce.Algebra.define
 ```
 
-*Example:*
+_Example:_
+
 ```
         define be==,x=y+z;
 ```
+
 means that `be` will be interpreted as an equal sign, and `x` as the expression `y+z` from then on. This renaming is done at parse time, and therefore takes precedence over any other replacement declared for the same identifier. It stays in effect until the end of the REDUCE run.
 
 The identifiers `ALGEBRAIC` and `SYMBOLIC` have properties which prevent `define` from being used on them. To define `ALG` to be a synonym for `ALGEBRAIC`, use the more complicated construction
+
 ```
         put(’alg,’newnam,’algebraic);
 ```
