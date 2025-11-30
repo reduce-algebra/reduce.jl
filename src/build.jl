@@ -9,7 +9,7 @@ red() = ispsl() ? `redpsl` : `redcsl -w`
 red(path) = ispsl() ? `$path/redpsl` : `$path/redcsl -w`
 redsl() = ispsl() ? "psl" : "csl"
 
-ρ = 7
+ρ = 8
 
 date = Dict(
   0 =>  "2017-05-16",
@@ -19,7 +19,8 @@ date = Dict(
   4 =>  "2019-09-15",
   5 =>  "2020-03-01",
   6 =>  "2020-06-24",
-  7 =>  "2020-10-07")
+  7 =>  "2020-10-07",
+  8 =>  "2024-08-12")
 
 rsvn = Dict(
   0 =>  "4052",
@@ -29,7 +30,8 @@ rsvn = Dict(
   4 =>  "5129",
   5 =>  "5286",
   6 =>  "5377",
-  7 =>  "5424")
+  7 =>  "5424",
+  8 =>  "6860")
 
 function redsys(dir)
     if !(Sys.iswindows())
